@@ -53,3 +53,9 @@ set ttymouse=sgr
 " split navigations
 nnoremap <C-J> :sp<CR>
 nnoremap <C-L> :vsp<CR>
+"share clipboard between SO
+set clipboard=unnamed
+
+
+"yml config
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab

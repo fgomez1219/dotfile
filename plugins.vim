@@ -25,6 +25,9 @@ Plugin 'preservim/nerdcommenter'
 Plugin '907th/vim-auto-save'
 Plugin 'vim-python/python-syntax'
 Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-rhubarb'
+Plugin 'tpope/vim-surround'
+Plugin 'Yggdroot/indentLine'
 " plugin from http://vim-scripts.org/vim/scripts.html
 " Plugin 'L9'
 " Git plugin not hosted on GitHub
