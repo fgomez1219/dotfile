@@ -6,3 +6,6 @@ source ~/.vim/plugins.vim
 
 "This script contains mapings and configuration of plugins
 source ~/.vim/mapping.vim
+
+" This scripts contains filetypes
+source ~/.vim/filestypes.vim
