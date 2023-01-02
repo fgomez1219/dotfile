@@ -5,7 +5,7 @@ set grepprg=rg\ --no-heading\ --vimgrepr
 " FZF shortcuts
 nnoremap <silent> <C-p> :Files<CR>
 nnoremap <silent> <C-g> :GFiles<CR>
-nnoremap <silent> <C-v> :Buffers<CR>
+nnoremap <silent> <C-f> :Buffers<CR>
 nnoremap <C-y> :Rg!
 
 " nerdtree config
@@ -40,7 +40,7 @@ let g:python_highlight_all = 1
 let g:indentLine_char = '|'
 " coc conf
 let g:coc_global_extensions = [ 'coc-tsserver', 'coc-css', 'coc-python', 'coc-kotlin' ]
-let g:coc_node_path = '~/.nvm/versions/node/v12.22.7/bin/node'
+let g:coc_node_path = "~/.nvm/versions/node/v18.12.1/bin/node"
 nmap <silent> <leader>gd <Plug>(coc-definition)
 nmap <silent> <leader>gy <Plug>(coc-type-definition)
 nmap <silent> <leader>gi <Plug>(coc-implementation)
@@ -67,3 +67,13 @@ nmap <silent> <leader>gr <Plug>(coc-references)
 set termguicolors
 let ayucolor="dark"
 colorscheme ayu
+
+" copy full/relative path of open file
+nnoremap <Leader>fp :let @+=expand('%:p')<CR>
+nnoremap <Leader>rp :let @+=expand('%:')<CR>
+
+" Make adjusing split sizes a bit more friendly
+noremap <silent> <C-Left> :vertical resize +5<CR>
+noremap <silent> <C-Right> :vertical resize -5<CR>
+noremap <silent> <C-Up> :resize +5<CR>
+noremap <silent> <C-Down> :resize -5<CR>
