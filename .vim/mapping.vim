@@ -40,7 +40,7 @@ let g:python_highlight_all = 1
 let g:indentLine_char = '|'
 " coc conf
 let g:coc_global_extensions = [ 'coc-tsserver', 'coc-css', 'coc-python', 'coc-kotlin' ]
-let g:coc_node_path = "/home/eurekalabs/.nvm/versions/node/v18.12.1/bin/node""
+let g:coc_node_path = "~/.nvm/versions/node/v18.12.1/bin/node"
 nmap <silent> <leader>gd <Plug>(coc-definition)
 nmap <silent> <leader>gy <Plug>(coc-type-definition)
 nmap <silent> <leader>gi <Plug>(coc-implementation)
