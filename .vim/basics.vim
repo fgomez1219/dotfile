@@ -48,6 +48,32 @@ set ttymouse=sgr
 :augroup numbertoggle
 :  autocmd!
 :  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+:  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+:augroup END
 
-" share clipboard only linux
-set clipboard=unnamedplus
+" split navigations
+nnoremap <C-J> :sp<CR>
+nnoremap <C-L> :vsp<CR>
+"share clipboard between SO
+set clipboard=unnamed
+
+"yml config
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+
+" Nerdtree Bookmarks
+let NERDTreeBookmarksFiles=expand("$HOME/.vim-NERDTreeBookmarks")
+" Show the bookmarks table on startup
+let NERDTreeShowBookmarks=1
+
+"copy path of current file to clipboard
+:nnoremap <Leader>c :let @+=expand('%:p')<CR>
+
+" enable pathonge
+execute pathogen#infect()
+syntax on
+filetype plugin indent on
+
+" disable arrows navegation in vim
+"let g:HardMode_level = 'wannabe'
+"let g:HardMode_hardmodeMsg = 'Don''t use this!'
+"autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
