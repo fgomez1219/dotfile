@@ -56,8 +56,9 @@ nnoremap <C-J> :sp<CR>
 nnoremap <C-L> :vsp<CR>
 
 "share clipboard between SO
-set clipboard=unnamed
+"set clipboard=unnamed
 " share clipboard only linux
+" make sure that vim --version return +clipboard else install vim-gtk3
 set clipboard=unnamedplus
 
 "yml config
@@ -67,9 +68,6 @@ autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 let NERDTreeBookmarksFiles=expand("$HOME/.vim-NERDTreeBookmarks")
 " Show the bookmarks table on startup
 let NERDTreeShowBookmarks=1
-
-"copy path of current file to clipboard
-:nnoremap <Leader>c :let @+=expand('%:p')<CR>
 
 " enable pathonge
 execute pathogen#infect()

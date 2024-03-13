@@ -45,7 +45,7 @@ Plugin 'jiangmiao/auto-pairs'
 " Install L9 and avoid a Naming conflict if you've already installed a
 " different version somewhere else.
 " Plugin 'ascenator/L9', {'name': 'newL9'}
-
+Plugin 'Vimjas/vim-python-pep8-indent'
 Plugin 'neoclide/coc.nvim' , { 'branch' : 'release' }
 " All of your Plugins must be added before the following line
 call vundle#end()            " required

@@ -77,3 +77,7 @@ noremap <silent> <C-Left> :vertical resize +5<CR>
 noremap <silent> <C-Right> :vertical resize -5<CR>
 noremap <silent> <C-Up> :resize +5<CR>
 noremap <silent> <C-Down> :resize -5<CR>
+
+" copy full/relative path of open file
+noremap <Leader>fp :let @+=expand('%:p')<CR>
+noremap <Leader>rp :let @+=expand('%:')<CR>
