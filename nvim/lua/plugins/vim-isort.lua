@@ -1,7 +1,9 @@
 return {
   -- https://github.com/fisadev/vim-isort
   'fisadev/vim-isort',
+  enabled = false,
   ft = 'python',
+
   config = function()
     -- Disable default key binding
     vim.g.vim_isort_map = ''

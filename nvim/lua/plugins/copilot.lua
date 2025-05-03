@@ -22,10 +22,10 @@ return {
 
       -- Set <C-y> to accept copilot suggestion
       vim.g.copilot_no_tab_map = true
-      keymap("i", "<C-y>", 'copilot#Accept("\\<CR>")', { expr = true, replace_keycodes = false })
+      keymap("i", "<C-t>", 'copilot#Accept("\\<CR>")', { expr = true, replace_keycodes = false })
 
       -- Set <C-i> to accept line
-      keymap("i", "<C-i>", "<Plug>(copilot-accept-line)", opts)
+      keymap("i", "<C-d>", "<Plug>(copilot-accept-line)", opts)
 
       -- Set <C-j> to next suggestion, <C-k> to previous suggestion, <C-l> to suggest
       keymap("i", "<C-j>", "<Plug>(copilot-next)", opts)

@@ -33,6 +33,7 @@ Plugin 'Yggdroot/indentLine'
 Plugin 'airblade/vim-gitgutter'
 " autopairing insert or delete brackets, parens, quotes in pair
 Plugin 'jiangmiao/auto-pairs'
+Plugin 'github/copilot.vim'
 " plugin from http://vim-scripts.org/vim/scripts.html
 " Plugin 'L9'
 " Git plugin not hosted on GitHub
