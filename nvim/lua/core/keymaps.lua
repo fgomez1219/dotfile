@@ -21,6 +21,11 @@ keymap.set("n", "<leader>sk", "<C-w>+") -- make split windows height taller
 keymap.set("n", "<leader>sl", "<C-w>>5") -- make split windows width bigger 
 keymap.set("n", "<leader>sh", "<C-w><5") -- make split windows width smaller
 
+-- Get relative path of a file
+vim.keymap.set('n', '<leader>rp', function()
+  vim.fn.setreg('+', vim.fn.expand('%:p'))
+end, { noremap = true, silent = true })
+
 -- Tab management
 keymap.set("n", "<leader>to", ":tabnew<CR>") -- open a new tab
 keymap.set("n", "<leader>tx", ":tabclose<CR>") -- close a tab
@@ -62,6 +67,7 @@ keymap.set('n', '<leader>fm', function() require('telescope.builtin').treesitter
 
 -- Git-blame
 keymap.set("n", "<leader>gb", ":GitBlameToggle<CR>") -- toggle git blame
+vim.api.nvim_set_keymap('n', '<leader>gbo', ':GBrowse<CR>', { noremap = true, silent = true })
 
 -- Harpoon
 keymap.set("n", "<leader>ha", require("harpoon.mark").add_file)
@@ -136,3 +142,25 @@ keymap.set("n", '<leader>df', '<cmd>Telescope dap frames<cr>')
 keymap.set("n", '<leader>dh', '<cmd>Telescope dap commands<cr>')
 keymap.set("n", '<leader>de', function() require('telescope.builtin').diagnostics({default_text=":E:"}) end)
 
+-- Mark TrailingWhitespace
+vim.cmd([[
+  highlight ExtraWhitespace ctermbg=red guibg=red
+  augroup TrailingWhitespace
+    autocmd!
+    autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+    autocmd InsertEnter * match none
+    autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+    autocmd BufWinLeave * call clearmatches()
+  augroup END
+]])
+
+-- function to clean trailing whitespace
+function TrimWhitespace()
+  local save_cursor = vim.fn.getpos(".")
+  local save_view = vim.fn.winsaveview()
+  vim.cmd([[%s/\s\+$//e]])
+  vim.fn.setpos(".", save_cursor)
+  vim.fn.winrestview(save_view)
+end
+-- mapping to call the function TrimWhitespace
+vim.keymap.set("n", "<leader>tw", TrimWhitespace, { desc = "Trim trailing whitespace" })

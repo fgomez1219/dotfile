@@ -144,16 +144,12 @@ return {
       -- Add which-key mappings
       local wk = require("which-key")
       wk.register({
-        g = {
-          m = {
-            name = "+Copilot Chat",
-            d = "Show diff",
-            p = "System prompt",
-            s = "Show selection",
-            y = "Yank diff",
-          },
-        },
-      })
+          ["gm"] = { name = "Copilot Chat" },
+          ["gmd"] = { "<cmd>CopilotDiff<CR>", "Show diff" },
+          ["gmp"] = { "<cmd>CopilotPrompt<CR>", "System prompt" },
+          ["gms"] = { "<cmd>CopilotSelection<CR>", "Show selection" },
+          ["gmy"] = { "<cmd>CopilotYank<CR>", "Yank diff" },
+        })
     end,
     event = "VeryLazy",
     keys = {

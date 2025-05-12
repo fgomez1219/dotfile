@@ -8,6 +8,6 @@ return {
   },
   config = function ()
     -- Update the path passed to setup to point to your system or virtual env python binary
-    require('dap-python').setup('/home/fgomez/.pyenv/shims/python')
+    require('dap-python').setup('/home/eurekalabs/.pyenv/shims/python')
   end
 }

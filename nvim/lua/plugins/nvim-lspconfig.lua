@@ -1,32 +1,17 @@
 -- LSP Support
 return {
-  -- LSP Configuration
-  -- https://github.com/neovim/nvim-lspconfig
   'neovim/nvim-lspconfig',
   event = 'VeryLazy',
   dependencies = {
-    -- LSP Management
-    -- https://github.com/williamboman/mason.nvim
     { 'williamboman/mason.nvim' },
-    -- https://github.com/williamboman/mason-lspconfig.nvim
     { 'williamboman/mason-lspconfig.nvim' },
-
-    -- Auto-Install LSPs, linters, formatters, debuggers
-    -- https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim
     { 'WhoIsSethDaniel/mason-tool-installer.nvim' },
-
-    -- Useful status updates for LSP
-    -- https://github.com/j-hui/fidget.nvim
     { 'j-hui/fidget.nvim', opts = {} },
-
-    -- Additional lua configuration, makes nvim stuff amazing!
-    -- https://github.com/folke/neodev.nvim
-    {'folke/neodev.nvim' },
+    { 'folke/neodev.nvim' },
   },
   config = function ()
     require('mason').setup()
     require('mason-lspconfig').setup({
-      -- Install these LSPs automatically
       ensure_installed = {
         'bashls',
         'cssls',
@@ -42,7 +27,6 @@ return {
     })
 
     require('mason-tool-installer').setup({
-      -- Install these linters, formatters, debuggers automatically
       ensure_installed = {
         'black',
         'debugpy',
@@ -51,55 +35,57 @@ return {
         'mypy',
         'pylint',
       },
-      tools = {
-        black = {
-          setup = {
-            extraArgs = { "--line-length", "120" },
-          },
-        },
-      },
     })
 
-    -- There is an issue with mason-tools-installer running with VeryLazy, since it triggers on VimEnter which has already occurred prior to this plugin loading so we need to call install explicitly
-    -- https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim/issues/39
+    -- Instala herramientas si falta alguna
     vim.api.nvim_command('MasonToolsInstall')
 
     local lspconfig = require('lspconfig')
-    local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
-    local lsp_attach = function(client, bufnr)
-      -- Create your keybindings here...
+    local capabilities = require('cmp_nvim_lsp').default_capabilities()
+    local on_attach = function(client, bufnr)
+      -- Tus keymaps aquí si querés
     end
 
-    -- Call setup on each LSP server
-    require('mason-lspconfig').setup_handlers({
-      function(server_name)
-        lspconfig[server_name].setup({
-          on_attach = lsp_attach,
-          capabilities = lsp_capabilities,
-        })
-      end
-    })
+    -- Lista de servidores para configurar
+    local servers = {
+      'bashls',
+      'cssls',
+      'html',
+      'jsonls',
+      'lemminx',
+      'marksman',
+      'quick_lint_js',
+      'yamlls',
+      'pyright',
+    }
 
-    -- Lua LSP settings
-    lspconfig.lua_ls.setup {
+    for _, server in ipairs(servers) do
+      lspconfig[server].setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+      })
+    end
+
+    -- Config especial para Lua
+    lspconfig.lua_ls.setup({
+      on_attach = on_attach,
+      capabilities = capabilities,
       settings = {
         Lua = {
           diagnostics = {
-            -- Get the language server to recognize the `vim` global
-            globals = {'vim'},
+            globals = { 'vim' },
           },
         },
       },
-    }
+    })
 
-    -- Globally configure all LSP floating preview popups (like hover, signature help, etc)
-    local open_floating_preview = vim.lsp.util.open_floating_preview
+    -- Ventanas flotantes con borde redondeado
+    local orig_util = vim.lsp.util.open_floating_preview
     function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
       opts = opts or {}
-      opts.border = opts.border or "rounded" -- Set border to rounded
-      return open_floating_preview(contents, syntax, opts, ...)
+      opts.border = opts.border or "rounded"
+      return orig_util(contents, syntax, opts, ...)
     end
-
   end
 }
 
