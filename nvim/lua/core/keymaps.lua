@@ -56,14 +56,32 @@ keymap.set("n", "<leader>er", ":NvimTreeFocus<CR>") -- toggle focus to file expl
 keymap.set("n", "<leader>ef", ":NvimTreeFindFile<CR>") -- find file in file explorer
 
 -- Telescope
-keymap.set('n', '<C-p>', require('telescope.builtin').find_files, {})
-keymap.set('n', '<C-y>', require('telescope.builtin').live_grep, {})
-keymap.set('n', '<leader>fb', require('telescope.builtin').buffers, {})
-keymap.set('n', '<leader>fh', require('telescope.builtin').help_tags, {})
-keymap.set('n', '<leader>fs', require('telescope.builtin').current_buffer_fuzzy_find, {})
-keymap.set('n', '<leader>fo', require('telescope.builtin').lsp_document_symbols, {})
-keymap.set('n', '<leader>fi', require('telescope.builtin').lsp_incoming_calls, {})
-keymap.set('n', '<leader>fm', function() require('telescope.builtin').treesitter({default_text=":method:"}) end)
+-- keymap.set('n', '<C-p>', require('telescope.builtin').find_files, {})
+--keymap.set('n', '<C-y>', require('telescope.builtin').live_grep, {})
+--keymap.set('n', '<leader>fb', require('telescope.builtin').buffers, {})
+--keymap.set('n', '<leader>fh', require('telescope.builtin').help_tags, {})
+--keymap.set('n', '<leader>fs', require('telescope.builtin').current_buffer_fuzzy_find, {})
+--keymap.set('n', '<leader>fo', require('telescope.builtin').lsp_document_symbols, {})
+--keymap.set('n', '<leader>fi', require('telescope.builtin').lsp_incoming_calls, {})
+--keymap.set('n', '<leader>fm', function() require('telescope.builtin').treesitter({default_text=":method:"}) end)
+--
+-- fzf ripgrep
+keymap.set("n", "<C-p>", "<cmd>lua require('fzf-lua').files()<CR>", { desc = "Search files" })
+
+keymap.set("n", "<C-y>", function()
+  require("fzf-lua").grep({
+    prompt = "Rg❯ ",
+    search = "",
+    rg_opts = "--hidden --no-ignore --column --line-number --smart-case --color=always",
+    fuzzy = true,
+  })
+end, { desc = "Buscar con fuzzy grep" })
+keymap.set("n", "<C-b>", "<cmd>lua require('fzf-lua').buffers()<CR>", { desc = "Search buffers" })
+keymap.set("n", "<C-h>", "<cmd>lua require('fzf-lua').help_tags()<CR>", { desc = "Search ayuda" })
+
+keymap.set("n", "<C-k>", function()
+  require("fzf-lua").keymaps()
+end, { desc = "Search keymaps " })
 
 -- Git-blame
 keymap.set("n", "<leader>gb", ":GitBlameToggle<CR>") -- toggle git blame
@@ -164,3 +182,11 @@ function TrimWhitespace()
 end
 -- mapping to call the function TrimWhitespace
 vim.keymap.set("n", "<leader>tw", TrimWhitespace, { desc = "Trim trailing whitespace" })
+
+-- disableing opacity background
+vim.cmd [[ hi Normal guibg=NONE ctermbg=NONE ]]
+vim.cmd [[ hi NormalNC guibg=NONE ctermbg=NONE ]]
+vim.cmd [[ hi EndOfBuffer guibg=NONE ctermbg=NONE ]]
+vim.cmd [[ hi SignColumn guibg=NONE ctermbg=NONE ]]
+--Change line colors (left)
+vim.cmd [[ hi LineNr guibg=NONE guifg=#ffb07b ]]

@@ -192,3 +192,4 @@ return {
     vim.cmd("colorscheme ayu")
   end,
 }
+
