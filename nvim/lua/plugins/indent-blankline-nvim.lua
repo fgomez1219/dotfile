@@ -15,7 +15,7 @@ return {
   },
   config = function(_, opts)
     vim.api.nvim_set_hl(0, "IblIndent", { fg = "#3c4452", bg = "NONE", nocombine = true })
-    vim.api.nvim_set_hl(0, "IblScopeHighlight", { fg = "#ffb07b", bg = "NONE", nocombine = true })  -- Definir el grupo aquí
+    vim.api.nvim_set_hl(0, "IblScopeHighlight", { fg = "#ffb07b", bg = "NONE", nocombine = true })
 
     local ibl = require("ibl")
     ibl.setup(opts)

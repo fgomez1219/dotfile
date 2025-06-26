@@ -4,7 +4,7 @@ vim.g.mapleader = " "
 local keymap = vim.keymap
 
 -- General keymaps
-keymap.set("i", "jk", "<ESC>") -- exit insert mode with jk 
+keymap.set("i", "jk", "<ESC>") -- exit insert mode with jk
 keymap.set("i", "ii", "<ESC>") -- exit insert mode with ii
 keymap.set("n", "<leader>wq", ":wq<CR>") -- save and quit
 keymap.set("n", "<leader>qq", ":q!<CR>") -- quit without saving
@@ -18,7 +18,7 @@ keymap.set("n", "<leader>se", "<C-w>=") -- make split windows equal width
 keymap.set("n", "<leader>sx", ":close<CR>") -- close split window
 keymap.set("n", "<leader>sj", "<C-w>-") -- make split window height shorter
 keymap.set("n", "<leader>sk", "<C-w>+") -- make split windows height taller
-keymap.set("n", "<leader>sl", "<C-w>>5") -- make split windows width bigger 
+keymap.set("n", "<leader>sl", "<C-w>>5") -- make split windows width bigger
 keymap.set("n", "<leader>sh", "<C-w><5") -- make split windows width smaller
 
 -- Get relative path of a file
@@ -75,13 +75,35 @@ keymap.set("n", "<C-y>", function()
     rg_opts = "--hidden --no-ignore --column --line-number --smart-case --color=always",
     fuzzy = true,
   })
-end, { desc = "Buscar con fuzzy grep" })
-keymap.set("n", "<C-b>", "<cmd>lua require('fzf-lua').buffers()<CR>", { desc = "Search buffers" })
-keymap.set("n", "<C-h>", "<cmd>lua require('fzf-lua').help_tags()<CR>", { desc = "Search ayuda" })
+end, { desc = "Search with fuzzy grep" })
 
 keymap.set("n", "<C-k>", function()
   require("fzf-lua").keymaps()
 end, { desc = "Search keymaps " })
+
+keymap.set("n", "<C-b>", "<cmd>lua require('fzf-lua').buffers()<CR>", { desc = "Search buffers" })
+keymap.set("n", "<C-h>", "<cmd>lua require('fzf-lua').help_tags()<CR>", { desc = "Search help" })
+
+keymap.set("n", "<C-k>", function()
+  require("fzf-lua").keymaps()
+end, { desc = "Search keymaps" })
+
+-- search over git modified files
+keymap.set("n", "<C-g>", function()
+  require("fzf-lua").fzf_exec("git status --porcelain | awk '{print $2}'", {
+    prompt = "Git Modified Files❯ ",
+    previewer = true,
+    actions = {
+      ["default"] = function(selected)
+        if type(selected) == "table" then
+          vim.cmd("edit " .. selected[1])
+        else
+          vim.cmd("edit " .. selected)
+        end
+      end,
+    },
+  })
+end, { desc = "Search Git modified files" })
 
 -- Git-blame
 keymap.set("n", "<leader>gb", ":GitBlameToggle<CR>") -- toggle git blame
@@ -190,3 +212,96 @@ vim.cmd [[ hi EndOfBuffer guibg=NONE ctermbg=NONE ]]
 vim.cmd [[ hi SignColumn guibg=NONE ctermbg=NONE ]]
 --Change line colors (left)
 vim.cmd [[ hi LineNr guibg=NONE guifg=#ffb07b ]]
+
+
+-- change creds from bitwarden to use with vim-dadbod-ui
+local function load_all_dbs_from_bitwarden()
+  -- Get the Bitwarden session key from the environment variable
+  local session = os.getenv("BW_SESSION")
+
+  -- Check if the BW_SESSION environment variable is set
+  if not session or session == "" then
+    print("❌ BW_SESSION environment variable not set.")
+    print("   Please unlock your Bitwarden vault in your terminal and export the session:")
+    print("   export BW_SESSION=$(bw unlock --raw)")
+    return
+  end
+
+  -- List items from Bitwarden with 'db-' in their name, using the session key
+  -- We explicitly pass the session via --session option.
+  local list_json = vim.fn.system(string.format('bw list items --search "db-" --session "%s"', session))
+
+  -- Attempt to decode the JSON output from Bitwarden CLI
+  local ok, items = pcall(vim.fn.json_decode, list_json)
+  if not ok then
+    print("❌ Error decoding JSON from Bitwarden CLI. Raw output:")
+    print(list_json) -- Print raw output for debugging
+    return
+  end
+
+  -- Initialize an empty table to store database connection strings
+  local dbs = {}
+
+  -- Iterate through each item retrieved from Bitwarden
+  for _, item in ipairs(items) do
+    -- Check if the item is a 'db-' connection item
+    -- The Bash script now names items as "DB-<alias_name>", so we check for "DB-" prefix.
+    -- Also ensure essential login details (uris, username, password) are present.
+    if item.name and item.name:match("^DB%-") and item.login and item.login.uris and #item.login.uris > 0 and item.login.username and item.login.password then
+      local dbname_val = ""
+      local port_val = "5432"    -- Default port
+      local dbtype_val = "postgres" -- Default type
+
+      -- Extract custom fields from the item's 'fields' array
+      for _, field in ipairs(item.fields or {}) do
+        -- Check for the new field names
+        if field.name == "Database Name" then
+          dbname_val = field.value
+        elseif field.name == "Port" then
+          port_val = field.value
+        elseif field.name == "DB Type" then
+          dbtype_val = field.value
+        end
+      end
+
+      -- If a database name was successfully found in custom fields
+      if dbname_val ~= "" then
+        local host = item.login.uris[1].uri -- Get the URI from the first entry in the uris array
+        local user = item.login.username
+        local pass = item.login.password
+
+        -- Generate a unique key for the database connection table
+        -- Uses the part after "DB-" from the item name,
+        -- replaces spaces with underscores, and converts to lowercase.
+        local key = item.name:match("^DB%-(.+)") -- Changed pattern from "DB %- (.+)" to "DB%-(.+)"
+        if key then -- Ensure key is not nil if pattern doesn't match
+            key = key:gsub("%s+", "_"):lower()
+        else
+            -- Fallback if the name doesn't perfectly match "DB-<alias>"
+            key = item.name:gsub("%s+", "_"):lower() -- Use full name as key
+        end
+
+
+        -- Construct the Data Source Name (DSN) string
+        local dsn = string.format("%s://%s:%s@%s:%s/%s", dbtype_val, user, pass, host, port_val, dbname_val)
+        dbs[key] = dsn
+      end
+    end
+  end
+
+  -- Store the collected DSNs in a global Neovim variable
+  vim.g.dbs = dbs
+  -- Print a success message with the count of loaded connections
+  print("✅ Loaded " .. tostring(vim.tbl_count(dbs)) .. " connections from Bitwarden.")
+end
+
+-- This allows you to run :LoadBitwardenDBs in Neovim
+vim.api.nvim_create_user_command("LoadBitwardenDBs", load_all_dbs_from_bitwarden, {})
+
+vim.api.nvim_create_user_command("DB", function()
+  local ok, api = pcall(require, "nvim-tree.api")
+  if ok then
+    api.tree.close()
+  end
+  vim.cmd("DBUI")
+end, {})
