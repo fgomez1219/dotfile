@@ -1,4 +1,4 @@
--- Auto-completion / Snippets
+--i Auto-completion / Snippets
 return {
   -- https://github.com/hrsh7th/nvim-cmp
   'hrsh7th/nvim-cmp',
@@ -49,29 +49,9 @@ return {
           behavior = cmp.ConfirmBehavior.Replace,
           select = true,
         },
-	-- Tab through suggestions or when a snippet is active, tab to the next argument
-        --['<Tab>'] = cmp.mapping(function(fallback)
-          --if cmp.visible() then
-            --cmp.select_next_item()
-          --elseif luasnip.expand_or_locally_jumpable() then
-            --luasnip.expand_or_jump()
-          --else
-            --fallback()
-          --end
-        --end, { 'i', 's' }),
-	-- Tab backwards through suggestions or when a snippet is active, tab to the next argument
-        --['<S-Tab>'] = cmp.mapping(function(fallback)
-          --if cmp.visible() then
-            --cmp.select_prev_item()
-          --elseif luasnip.locally_jumpable(-1) then
-            --luasnip.jump(-1)
-          --else
-            --fallback()
-          --end
-        --end, { 'i', 's' }),
       },
       sources = cmp.config.sources({
-        { name = "nvim_lsp" }, -- lsp 
+        { name = "nvim_lsp" }, -- lsp
         { name = "luasnip" }, -- snippets
         { name = "buffer" }, -- text within current buffer
         { name = "path" }, -- file system paths
@@ -82,6 +62,13 @@ return {
         documentation = cmp.config.window.bordered(),
       },
     })
-  end,
- }
 
+    -- dadbod completion
+    cmp.setup.filetype({"sql"}, {
+      sources = {
+        { name = "vim-dadbod-completion" },
+        { name = "buffer" }
+      }
+    })
+  end,
+}

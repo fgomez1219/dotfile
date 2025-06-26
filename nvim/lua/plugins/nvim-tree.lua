@@ -16,10 +16,20 @@ return {
     },
   },
   config = function (_, opts)
-    -- Recommended settings to disable default netrw file explorer
+  -- Recommended settings to disable default netrw file explorer
     vim.g.loaded_netrw = 1
     vim.g.loaded_netrwPlugin = 1
-    require("nvim-tree").setup(opts)
-  end
-}
 
+    require("nvim-tree").setup(opts)
+
+    -- Open automatically nvim-tree if no file is passed when starting Neovim
+    vim.api.nvim_create_autocmd("VimEnter", {
+      callback = function()
+        local args = vim.fn.argv()
+        if #args == 0 then
+          require("nvim-tree.api").tree.open()
+        end
+      end
+    })
+end
+}

@@ -28,5 +28,15 @@ return {
         rg_opts = "--column --line-number --no-heading --color=always --smart-case -g '!node_modules/*' ",
       },
     })
+
+    -- key map
+    -- vim.keymap.set("n", "<leader>kq", "<cmd>lua require('fzf-lua').files()<CR>", { desc = "Search files" })
+    -- vim.keymap.set("n", "<leader>kg", "<cmd>lua require('fzf-lua').live_grep()<CR>", { desc = "Search text (ripgrep)" })
+    -- vim.keymap.set("n", "<leader>kb", "<cmd>lua require('fzf-lua').buffers()<CR>", { desc = "Search buffers" })
+    -- vim.keymap.set("n", "<leader>kh", "<cmd>lua require('fzf-lua').help_tags()<CR>", { desc = "Search ayuda" })
+
+    -- vim.keymap.set("n", "<leader>fm", function()
+    --   require("fzf-lua").keymaps()
+    -- end, { desc = "Search keymaps " })
   end,
 }
