@@ -1,6 +1,7 @@
 return {
   {
     "rest-nvim/rest.nvim",
+    enable = false,
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
     },
