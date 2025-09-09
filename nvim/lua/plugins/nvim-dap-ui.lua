@@ -110,6 +110,25 @@ return {
     --   {
     --   },
     -- }
-  end
+    --
+    dap.adapters.java = {
+      type = "executable",
+      command = "java",
+      args = {
+        "-jar",
+        "/home/fgomez/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-0.53.2.jar"
+      },
+    }
+
+    dap.configurations.kotlin = {
+      {
+        type = "java",
+        request = "launch",
+        name = "Launch Kotlin App",
+        mainClass = "org.example.AppKt",
+        projectName = "kt_test",
+      },
+    }
+    end
 }
 

@@ -23,6 +23,7 @@ return {
         'quick_lint_js',
         'yamlls',
         'pyright',
+        'kotlin_language_server',
       }
     })
 
@@ -34,6 +35,7 @@ return {
         'isort',
         'mypy',
         'pylint',
+        'ktlint',
       },
     })
 
@@ -57,6 +59,7 @@ return {
       'quick_lint_js',
       'yamlls',
       'pyright',
+      'kotlin_language_server',
     }
 
     for _, server in ipairs(servers) do
