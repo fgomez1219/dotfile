@@ -27,26 +27,26 @@ require("lazy").setup("plugins", {
 require("core.options")
 require("core.keymaps")
 
--- undo
-USER = os.getenv("USER")
-local curr_group = vim.fn.system("id -ng 2> /dev/null | tr -d '\n'")
 
-SWAPDIR = "/home/" .. curr_group .. "/" .. USER .. "/nvim/swap//"
-BACKUPDIR = "/home/" .. curr_group .. "/" .. USER .. "/nvim/backup//"
-UNDODIR = "/home/" .. curr_group .. "/" .. USER .. "/nvim/undo//"
+-- Define directories inside the user's home
+local HOME = os.getenv("HOME")
 
-if vim.fn.isdirectory(SWAPDIR) == 0 then
-	vim.fn.mkdir(SWAPDIR, "p", "0o700")
+-- Use standard Neovim data folder under HOME
+local NVIM_DATA = HOME .. "/.local/share/nvim"
+
+local SWAPDIR   = NVIM_DATA .. "/swap//"
+local BACKUPDIR = NVIM_DATA .. "/backup//"
+local UNDODIR   = NVIM_DATA .. "/undo//"
+
+-- Create directories if they don't exist
+for _, dir in ipairs({SWAPDIR, BACKUPDIR, UNDODIR}) do
+  if vim.fn.isdirectory(dir) == 0 then
+    vim.fn.mkdir(dir, "p")
+    vim.fn.setfperm(dir, "rwx------")
+  end
 end
 
-if vim.fn.isdirectory(BACKUPDIR) == 0 then
-	vim.fn.mkdir(BACKUPDIR, "p", "0o700")
-end
-
-if vim.fn.isdirectory(UNDODIR) == 0 then
-	vim.fn.mkdir(UNDODIR, "p", "0o700")
-end
--- Enable swap, backup, and persistant undo
+-- Enable swap, backup, and persistent undo
 vim.opt.directory = SWAPDIR
 vim.opt.backupdir = BACKUPDIR
 vim.opt.undodir = UNDODIR

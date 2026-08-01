@@ -18,8 +18,8 @@ return {
       my_company_llm = {
         adapter = "openai_compatible",
         opts = {
-          endpoint = "https://llm-gateway.internal.latest.acvauctions.com/openai/v1",
-          api_key = "v-fegomez@acvauctions.com",
+          endpoint = os.getenv("NVIM_LLM_ENDPOINT") or "http://localhost:8080/openai/v1",
+          api_key = os.getenv("NVIM_LLM_API_KEY") or "",
           model = "openai/google/gemini-2.5-pro",
           timeout = 60,
         },

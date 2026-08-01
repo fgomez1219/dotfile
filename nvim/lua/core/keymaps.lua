@@ -176,10 +176,13 @@ keymap.set("n", '<leader>dd', function() require('dap').disconnect(); require('d
 keymap.set("n", '<leader>dt', function() require('dap').terminate(); require('dapui').close(); end)
 keymap.set("n", "<leader>dr", "<cmd>lua require'dap'.repl.toggle()<cr>")
 keymap.set("n", "<leader>dl", "<cmd>lua require'dap'.run_last()<cr>")
+keymap.set("n", "<leader>ds", "<cmd>Telescope dap configurations<cr>", { desc = "DAP: pick configuration (launch/attach)" })
 keymap.set("n", '<leader>di', function() require "dap.ui.widgets".hover() end)
 keymap.set("n", '<leader>d?', function() local widgets = require "dap.ui.widgets"; widgets.centered_float(widgets.scopes) end)
 keymap.set("n", '<leader>df', '<cmd>Telescope dap frames<cr>')
 keymap.set("n", '<leader>dh', '<cmd>Telescope dap commands<cr>')
+-- Refresh Java/Kotlin debug configs (main classes, Spring Boot) in jdtls projects
+keymap.set("n", "<leader>dy", "<cmd>JdtUpdateDebugConfig<cr>", { desc = "DAP: refresh Java/Kotlin debug configs (jdtls)" })
 keymap.set("n", '<leader>de', function() require('telescope.builtin').diagnostics({default_text=":E:"}) end)
 
 -- Mark TrailingWhitespace

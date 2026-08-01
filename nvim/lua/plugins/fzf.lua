@@ -21,11 +21,12 @@ return {
         git_icons = true,
         file_icons = true,
         color_icons = true,
+        fd_opts = "--color=never --type f --hidden --follow --exclude .git --exclude node_modules --exclude bin",
       },
       grep = {
         prompt = "Rg❯ ",
         input_prompt = "Grep for > ",
-        rg_opts = "--column --line-number --no-heading --color=always --smart-case -g '!node_modules/*' ",
+        rg_opts = "--column --line-number --no-heading --color=always --smart-case -g '!node_modules/*' -g '!bin/*' ",
       },
     })
 
