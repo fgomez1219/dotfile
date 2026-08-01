@@ -160,7 +160,7 @@ return {
     keys = {
       -- Show help actions with telescope
       {
-        "<leader>ah",
+        "<leader>Ah",
         function()
           local actions = require("CopilotChat.actions")
           require("CopilotChat.integrations.telescope").pick(actions.help_actions())
@@ -169,7 +169,7 @@ return {
       },
       -- Show prompts actions with telescope
       {
-        "<leader>ap",
+        "<leader>Ap",
         function()
           local actions = require("CopilotChat.actions")
           require("CopilotChat.integrations.telescope").pick(actions.prompt_actions())
@@ -177,33 +177,33 @@ return {
         desc = "CopilotChat - Prompt actions",
       },
       {
-        "<leader>ap",
+        "<leader>Ap",
         ":lua require('CopilotChat.integrations.telescope').pick(require('CopilotChat.actions').prompt_actions({selection = require('CopilotChat.select').visual}))<CR>",
         mode = "x",
         desc = "CopilotChat - Prompt actions",
       },
       -- Code related commands
-      { "<leader>ae", "<cmd>CopilotChatExplain<cr>", desc = "CopilotChat - Explain code" },
-      { "<leader>at", "<cmd>CopilotChatTests<cr>", desc = "CopilotChat - Generate tests" },
-      { "<leader>ar", "<cmd>CopilotChatReview<cr>", desc = "CopilotChat - Review code" },
-      { "<leader>aR", "<cmd>CopilotChatRefactor<cr>", desc = "CopilotChat - Refactor code" },
-      { "<leader>an", "<cmd>CopilotChatBetterNamings<cr>", desc = "CopilotChat - Better Naming" },
+      { "<leader>Ae", "<cmd>CopilotChatExplain<cr>", desc = "CopilotChat - Explain code" },
+      { "<leader>At", "<cmd>CopilotChatTests<cr>", desc = "CopilotChat - Generate tests" },
+      { "<leader>Ar", "<cmd>CopilotChatReview<cr>", desc = "CopilotChat - Review code" },
+      { "<leader>AR", "<cmd>CopilotChatRefactor<cr>", desc = "CopilotChat - Refactor code" },
+      { "<leader>An", "<cmd>CopilotChatBetterNamings<cr>", desc = "CopilotChat - Better Naming" },
       -- Chat with Copilot in visual mode
       {
-        "<leader>av",
+        "<leader>Av",
         ":CopilotChatVisual",
         mode = "x",
         desc = "CopilotChat - Open in vertical split",
       },
       {
-        "<leader>ax",
+        "<leader>Ax",
         ":CopilotChatInline<cr>",
         mode = "x",
         desc = "CopilotChat - Inline chat",
       },
       -- Custom input for CopilotChat
       {
-        "<leader>ai",
+        "<leader>Ai",
         function()
           local input = vim.fn.input("Ask Copilot: ")
           if input ~= "" then
@@ -214,18 +214,18 @@ return {
       },
       -- Generate commit message based on the git diff
       {
-        "<leader>am",
+        "<leader>Am",
         "<cmd>CopilotChatCommit<cr>",
         desc = "CopilotChat - Generate commit message for all changes",
       },
       {
-        "<leader>aM",
+        "<leader>AM",
         "<cmd>CopilotChatCommitStaged<cr>",
         desc = "CopilotChat - Generate commit message for staged changes",
       },
       -- Quick chat with Copilot
       {
-        "<leader>aq",
+        "<leader>Aq",
         function()
           local input = vim.fn.input("Quick Chat: ")
           if input ~= "" then
@@ -235,13 +235,13 @@ return {
         desc = "CopilotChat - Quick chat",
       },
       -- Debug
-      { "<leader>ad", "<cmd>CopilotChatDebugInfo<cr>", desc = "CopilotChat - Debug Info" },
+      { "<leader>Ad", "<cmd>CopilotChatDebugInfo<cr>", desc = "CopilotChat - Debug Info" },
       -- Fix the issue with diagnostic
-      { "<leader>af", "<cmd>CopilotChatFixDiagnostic<cr>", desc = "CopilotChat - Fix Diagnostic" },
+      { "<leader>Af", "<cmd>CopilotChatFixDiagnostic<cr>", desc = "CopilotChat - Fix Diagnostic" },
       -- Clear buffer and chat history
-      { "<leader>al", "<cmd>CopilotChatReset<cr>", desc = "CopilotChat - Clear buffer and chat history" },
+      { "<leader>Al", "<cmd>CopilotChatReset<cr>", desc = "CopilotChat - Clear buffer and chat history" },
       -- Toggle Copilot Chat Vsplit
-      { "<leader>av", "<cmd>CopilotChatToggle<cr>", desc = "CopilotChat - Toggle" },
+      { "<leader>Av", "<cmd>CopilotChatToggle<cr>", desc = "CopilotChat - Toggle" },
     },
   },
 }

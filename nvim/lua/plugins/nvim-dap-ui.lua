@@ -104,31 +104,9 @@ return {
       -- require('dapui').close()
     end
 
-    -- Add dap configurations based on your language/adapter settings
-    -- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation
-    -- dap.configurations.xxxxxxxxxx = {
-    --   {
-    --   },
-    -- }
-    --
-    dap.adapters.java = {
-      type = "executable",
-      command = "java",
-      args = {
-        "-jar",
-        "/home/fgomez/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-0.53.2.jar"
-      },
-    }
-
-    dap.configurations.kotlin = {
-      {
-        type = "java",
-        request = "launch",
-        name = "Launch Kotlin App",
-        mainClass = "org.example.AppKt",
-        projectName = "kt_test",
-      },
-    }
+    -- Java/Kotlin adapter is registered by nvim-jdtls when you open a Java/Kotlin file.
+    -- Attach config for Java/Kotlin is in lua/plugins/nvim-jdtls.lua.
     end
+
 }
 

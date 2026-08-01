@@ -7,6 +7,22 @@ return {
     'nvim-tree/nvim-web-devicons', -- Fancy icon support
   },
   opts = {
+    -- Java/Kotlin repos have deep package paths (com/kitetech/.../bounded_contexts/...)
+    -- and long file names. Two tweaks keep names readable:
+    --   1) group_empty collapses single-child folder chains onto one line, so a whole
+    --      package (com/kitetech/core_monolith) shows as one entry instead of 5 indents.
+    --   2) adaptive width lets the panel grow to fit the longest visible name (up to 60),
+    --      instead of the fixed 30 that truncated long file names.
+    renderer = {
+      group_empty = true,
+      indent_markers = { enable = true },
+    },
+    view = {
+      width = {
+        min = 30,
+        max = 60,
+      },
+    },
     actions = {
       open_file = {
         window_picker = {
